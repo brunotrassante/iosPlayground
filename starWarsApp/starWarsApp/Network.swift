@@ -30,7 +30,7 @@ class Network {
             }
         }
         else {
-            completion([:], 1)
+            completion([:], 1) // No Internet
         }
     }
 }

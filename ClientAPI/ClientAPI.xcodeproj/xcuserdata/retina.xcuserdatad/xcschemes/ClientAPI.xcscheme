@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "98C00B501F11274100ADA3C8"
-               BuildableName = "starWarsApp.app"
-               BlueprintName = "starWarsApp"
-               ReferencedContainer = "container:starWarsApp.xcodeproj">
+               BlueprintIdentifier = "984BBA531F110455008D7D8E"
+               BuildableName = "ClientAPI.app"
+               BlueprintName = "ClientAPI"
+               ReferencedContainer = "container:ClientAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "98C00B501F11274100ADA3C8"
-            BuildableName = "starWarsApp.app"
-            BlueprintName = "starWarsApp"
-            ReferencedContainer = "container:starWarsApp.xcodeproj">
+            BlueprintIdentifier = "984BBA531F110455008D7D8E"
+            BuildableName = "ClientAPI.app"
+            BlueprintName = "ClientAPI"
+            ReferencedContainer = "container:ClientAPI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -55,10 +55,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "98C00B501F11274100ADA3C8"
-            BuildableName = "starWarsApp.app"
-            BlueprintName = "starWarsApp"
-            ReferencedContainer = "container:starWarsApp.xcodeproj">
+            BlueprintIdentifier = "984BBA531F110455008D7D8E"
+            BuildableName = "ClientAPI.app"
+            BlueprintName = "ClientAPI"
+            ReferencedContainer = "container:ClientAPI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -74,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "98C00B501F11274100ADA3C8"
-            BuildableName = "starWarsApp.app"
-            BlueprintName = "starWarsApp"
-            ReferencedContainer = "container:starWarsApp.xcodeproj">
+            BlueprintIdentifier = "984BBA531F110455008D7D8E"
+            BuildableName = "ClientAPI.app"
+            BlueprintName = "ClientAPI"
+            ReferencedContainer = "container:ClientAPI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

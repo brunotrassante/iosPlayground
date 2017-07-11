@@ -19,34 +19,63 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
         
         
     }
-    //    @IBAction func nextStep(_ sender: Any) {
-    //        let secondViewController = self.storyboard?.instantiateViewController(withIdentifier: "secondViewController") as! SecondViewController
-    //        self.navigationController?.pushViewController(secondViewController, animated: true)
-    //    }
+    
+    @IBOutlet weak var mostAcessedView: UIView!
+    
+    @IBOutlet weak var notFoundImage: UIImageView!
+    
+    @IBOutlet weak var errorMessageField: UILabel!
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    @IBOutlet weak var peopleTableView: UITableView!
+
     
     func searchPeople(name: String){
         
-        errorMessageField.isHidden = true
+        self.resetToPreSearchState()
         
         self.activityIndicator.startAnimating()
         self.peopleArray = []
         
         People.searchPeople(name: name) {(peopleArray, error) in
+            
+            self.peopleArray = peopleArray!
+            
             if(error == 0){
+                if(peopleArray?.count == 0){
+                    self.notFoundImage.isHidden = false
+                    self.showErrorMessage(message: "No people found")
+                }
+                
                 self.peopleArray = peopleArray!
-                           }
+            }
             else if (error == 1){
-                self.errorMessageField.isHidden = false
-                self.errorMessageField.text = "No Internet Found"
+
+                let message = String(peopleArray?.count == 0 ? "No internet found" : "No internet found \n(Data may not be up to date)")
+                
+                self.showErrorMessage(message: message!)
+                
             }
             else{
-                self.errorMessageField.isHidden = false
-                self.errorMessageField.text = "Unknown Error"
+                self.showErrorMessage(message: "Unknown error")
             }
+     
             self.peopleTableView.reloadData()
             self.activityIndicator.stopAnimating()
             
         }
+    }
+    
+    func showErrorMessage(message: String) {
+        self.errorMessageField.isHidden = false
+        self.errorMessageField.text = message
+    }
+    
+    func resetToPreSearchState() {
+        //self.mostAcessedView.isHidden = true
+        self.errorMessageField.isHidden = true
+        self.notFoundImage.isHidden = true
     }
     
     @IBAction func back(_ sender: Any) {
@@ -57,14 +86,6 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
         self.searchPeople(name: textField.text!)
         return true
     }
-    
-   
-    @IBOutlet weak var errorMessageField: UILabel!
-    
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
-    @IBOutlet weak var peopleTableView: UITableView!
-    
     
     // MARK: Datasource
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -101,7 +122,9 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
     }
     
     // MARK: Delegate
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //
-    //    }
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "peopleDetailViewController") as! PeopleDetailViewController
+            self.navigationController?.pushViewController(detailViewController, animated: true)
+
+        }
 }

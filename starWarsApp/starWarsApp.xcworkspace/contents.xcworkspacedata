@@ -2,7 +2,13 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:starWarsApp.xcodeproj">
+      location = "group:People+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:People+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/user/Desktop/Desenvolvimento/iosPlayground/starWarsApp/StarWarsApp.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
