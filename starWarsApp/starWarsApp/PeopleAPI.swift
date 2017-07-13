@@ -9,7 +9,8 @@
 
 import Foundation
 
-class People  {
+// TODO: Refatorar para seprar api de classe de dominio
+class PeopleAPI  {
     
     var name: String
     var hairColor:String
@@ -30,56 +31,55 @@ class People  {
         self.mass = mass
     }
     
-    // TODO: Remover para uma classe especifica
-    static func getPeople(id: Int, completion: @escaping (_ people : People?,_ error : Int)-> Void )  {
-        Network.load(url: "people/\(id)", method: .get){(json, error) in
-            if error == 0 {
-                completion(People(json: json),error)
+    static func getPeople(id: Int, completion: @escaping (_ people : PeopleAPI?,_ requestResult : RequestResult)-> Void )  {
+        Network.load(url: "people/\(id)", method: .get){(json, requestResult) in
+            if requestResult == .success{
+                completion(PeopleAPI(json: json),requestResult)
             }
             else{
-                completion(nil, error)
+                completion(nil, requestResult)
             }
         }
     }
     
-    static func searchPeople(name: String, completion: @escaping (_ peopleArray : [People]?,_ error : Int)-> Void )  {
-        Network.load(url: "people/?search=\(name)", method: .get){(json, error) in
+    static func searchPeople(name: String, completion: @escaping (_ peopleArray : [PeopleAPI]?,_ requestResult : RequestResult)-> Void )  {
+        Network.load(url: "people/?search=\(name)", method: .get){(json, requestResult) in
             let peopleStorage = PeopleStorage()
-            var peopleArray = [People]()
+            var peopleArray = [PeopleAPI]()
             
-            if error == 0 {
+            if requestResult == .success {
                 
                 if let listPeopleJson = json["results"] as? [JSON]{
                 
                     for peopleJSON in listPeopleJson{
-                        let people = People(json: peopleJSON)
+                        let people = PeopleAPI(json: peopleJSON)
                         self.storeIfDoesNotExists(people: people, peopleStorage: peopleStorage)
                         peopleArray.append(people)
                     }
                     
-                    completion(peopleArray,error)
+                    completion(peopleArray,requestResult)
                 }
                 else{
-                    completion(nil, 2)
+                    completion(nil, .unknownError)
                     
                 }
             }
             else{
                 if let peopleFromStorage = peopleStorage.get(withPredicate: NSPredicate(format: "name contains[c] %@", name)){
                     for peopleStored in peopleFromStorage{
-                        let people = People(name: peopleStored.name!,hairColor: peopleStored.hairColor!,mass:String(peopleStored.mass), height: String(describing: peopleStored.height))
+                        let people = PeopleAPI(name: peopleStored.name!,hairColor: peopleStored.hairColor!,mass:String(peopleStored.mass), height: String(describing: peopleStored.height))
                         peopleArray.append(people)
                     }
-                     completion(peopleArray, error)
+                     completion(peopleArray, requestResult)
                 }
                 else{
-                    completion(nil, error)
+                    completion(nil, requestResult)
                 }
             }
         }
     }
     
-    static func storeIfDoesNotExists(people: People, peopleStorage: PeopleStorage) {
+    static func storeIfDoesNotExists(people: PeopleAPI, peopleStorage: PeopleStorage) {
         let formatter = NumberFormatter()
         formatter.generatesDecimalNumbers = true
 

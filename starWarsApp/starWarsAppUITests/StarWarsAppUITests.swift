@@ -8,7 +8,7 @@
 
 import XCTest
 
-class starWarsAppUITests: XCTestCase {
+class StarWarsAppUITests: XCTestCase {
         
     override func setUp() {
         super.setUp()
@@ -28,9 +28,15 @@ class starWarsAppUITests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testNavigateInPeopleFlowFromStartToEndAndBackAgainWithNoTextSearch() {
+        
+        let app = XCUIApplication()
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 0).children(matching: .button).element.tap()
+        app.tables.staticTexts["Luke Skywalker"].tap()
+        
+        let leftArrowButton = app.buttons["left arrow"]
+        leftArrowButton.tap()
+        leftArrowButton.tap()
+        
     }
-    
 }

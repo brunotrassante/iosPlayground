@@ -10,13 +10,11 @@ import UIKit
 
 class PeopleViewController: UIViewController , UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate{
     
-    var peopleArray = [People]()
+    var peopleArray = [PeopleAPI]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        searchPeople(name: "")
-        
+        self.searchPeople(name: "")
         
     }
     
@@ -29,7 +27,7 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var peopleTableView: UITableView!
-
+    
     
     func searchPeople(name: String){
         
@@ -38,11 +36,11 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
         self.activityIndicator.startAnimating()
         self.peopleArray = []
         
-        People.searchPeople(name: name) {(peopleArray, error) in
+        PeopleAPI.searchPeople(name: name) {(peopleArray, requestResult) in
             
             self.peopleArray = peopleArray!
             
-            if(error == 0){
+            if(requestResult == .success){
                 if(peopleArray?.count == 0){
                     self.notFoundImage.isHidden = false
                     self.showErrorMessage(message: "No people found")
@@ -50,8 +48,8 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
                 
                 self.peopleArray = peopleArray!
             }
-            else if (error == 1){
-
+            else if (requestResult == .noInternet){
+                
                 let message = String(peopleArray?.count == 0 ? "No internet found" : "No internet found \n(Data may not be up to date)")
                 
                 self.showErrorMessage(message: message!)
@@ -60,7 +58,7 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
             else{
                 self.showErrorMessage(message: "Unknown error")
             }
-     
+            
             self.peopleTableView.reloadData()
             self.activityIndicator.stopAnimating()
             
@@ -108,23 +106,22 @@ class PeopleViewController: UIViewController , UITableViewDataSource, UITableVie
         return cell
     }
     
-    //    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-    //
-    //        let cell = tableView.dequeueReusableCell(withIdentifier: FooterViewController.nameOfCell) as! FooterViewController
-    //        cell.addTagToButton(tag: section)
-    //
-    //        return cell
-    //
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return self.peopleArray.count
     }
     
     // MARK: Delegate
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "peopleDetailViewController") as! PeopleDetailViewController
-            self.navigationController?.pushViewController(detailViewController, animated: true)
-
-        }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let name = peopleArray[indexPath.item].name
+        let hairColor = peopleArray[indexPath.item].hairColor
+        let mass = peopleArray[indexPath.item].mass
+        let height = peopleArray[indexPath.item].height
+        
+        let detailViewController = PeopleDetailViewController.peopleDetailInit(name: name, hairColor: hairColor,mass:mass,height: height)
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+        
+    }
 }

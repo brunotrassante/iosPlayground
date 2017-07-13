@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+enum RequestResult {
+    case success
+    case noInternet
+    case unknownError
+}
